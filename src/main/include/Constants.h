@@ -20,10 +20,19 @@ namespace CAN_Constants {
 }
 
 namespace Config {
-    constexpr bool usingFalcon;
-    constexpr bool position;
-    constexpr bool wpilibPID;
-    constexpr bool following;
-    
+    constexpr bool usingFalcon = true;
+    constexpr bool position = false;
+    constexpr bool wpilibPID = false;
+    constexpr bool following = false;
+    constexpr bool brake = false;
+    constexpr bool reversed = false;
+    constexpr bool facingSameWay = false;
+}
+
+namespace PIDF {
+    constexpr double kP;
+    constexpr double kI;
+    constexpr double kD;
+    constexpr double kF; 
 }
 

@@ -10,7 +10,7 @@
 
 class Motor : public frc2::SubsystemBase {
  public:
-  Motor(std::function<TalonFX(int id)> factoryFalcon, std::function<TalonSRX(int id)> factorTalon);
+  Motor();
   ~Motor();
 
   /**
@@ -24,10 +24,9 @@ class Motor : public frc2::SubsystemBase {
    */
   void SimulationPeriodic() override;
 
- private:
-    std::shared_ptr<TalonFX> motorToTest;
-    std::shared_ptr<TalonFX> motorFollower;
-
-    std::shared_ptr<TalonSRX> srx_motorToTest;
-    std::shared_ptr<TalonSRX> srx_motorFollower;
+ protected:
+    std::shared_ptr<BaseTalon> motor;
+    bool atSetpoint = false;
+    
 };
+
