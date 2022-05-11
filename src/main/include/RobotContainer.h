@@ -5,7 +5,6 @@
 #pragma once
 
 #include "ctre/Phoenix.h"
-#include "Constants.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -17,6 +16,7 @@
 class RobotContainer {
  public:
   RobotContainer();
+  ~RobotContainer();
 
  private:
   void ConfigureButtonBindings();
