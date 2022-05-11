@@ -4,10 +4,7 @@
 
 #pragma once
 
-#include <frc2/command/Command.h>
 #include "ctre/Phoenix.h"
-#include "commands/ExampleCommand.h"
-#include "subsystems/ExampleSubsystem.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -19,14 +16,11 @@
 class RobotContainer {
  public:
   RobotContainer();
+  ~RobotContainer();
 
   frc2::Command* GetAutonomousCommand();
 
  private:
-  // The robot's subsystems and commands are defined here...
-  ExampleSubsystem m_subsystem;
-  ExampleCommand m_autonomousCommand;
-
   void ConfigureButtonBindings();
 
   std::function<TalonFX(int id)> falconFactory;
