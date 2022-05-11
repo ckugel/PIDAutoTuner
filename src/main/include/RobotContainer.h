@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/Command.h>
-
+#include "ctre/Phoenix.h"
 #include "commands/ExampleCommand.h"
 #include "subsystems/ExampleSubsystem.h"
 
@@ -28,4 +28,7 @@ class RobotContainer {
   ExampleCommand m_autonomousCommand;
 
   void ConfigureButtonBindings();
+
+  std::function<TalonFX(int id)> falconFactory;
+  std::function<TalonSRX(int id)> talonFactory;
 };

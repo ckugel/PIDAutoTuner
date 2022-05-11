@@ -10,7 +10,8 @@
 
 class Motor : public frc2::SubsystemBase {
  public:
-  Motor();
+  Motor(std::function<TalonFX(int id)> factoryFalcon, std::function<TalonSRX(int id)> factorTalon);
+  ~Motor();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -24,9 +25,9 @@ class Motor : public frc2::SubsystemBase {
   void SimulationPeriodic() override;
 
  private:
-    TalonFX& motorToTest;
-    TalonFX& motorFollower;
+    std::shared_ptr<TalonFX> motorToTest;
+    std::shared_ptr<TalonFX> motorFollower;
 
-    TalonSRX& srx_motorToTest;
-    TalonSRX& srx_motorFollower;
+    std::shared_ptr<TalonSRX> srx_motorToTest;
+    std::shared_ptr<TalonSRX> srx_motorFollower;
 };
