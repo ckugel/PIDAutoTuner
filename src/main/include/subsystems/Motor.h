@@ -7,6 +7,9 @@
 #include <frc2/command/SubsystemBase.h>
 #include "ctre/Phoenix.h"
 #include "Constants.h"
+#include "networktables/NetworkTableEntry.h"
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableInstance.h"
 
 class Motor : public frc2::SubsystemBase {
  public:
@@ -24,9 +27,27 @@ class Motor : public frc2::SubsystemBase {
    */
   void SimulationPeriodic() override;
 
+  void updateShuffledboard();
+
+  void updateValuesFromShuffleBoard();
+
+  void resetPIDLoop();
+
  protected:
     std::shared_ptr<BaseTalon> motor;
-    bool atSetpoint = false;
+    bool atSetpoint;
+
+    nt::NetworkTableInstance netTablesInst;
+    std::shared_ptr<nt::NetworkTable> table;
+
+    nt::NetworkTableEntry& kP;
+    nt::NetworkTableEntry& kI;
+    nt::NetworkTableEntry& kD;
+    nt::NetworkTableEntry& kF;
     
+    nt::NetworkTableEntry& setPoint;
+    nt::NetworkTableEntry& positionError;
+    nt::NetworkTableEntry& veloctyError;
+    nt::NetworkTableEntry& mode;
 };
 

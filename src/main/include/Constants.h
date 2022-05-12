@@ -27,12 +27,13 @@ namespace Config {
     constexpr bool brake = false;
     constexpr bool reversed = false;
     constexpr bool facingSameWay = false;
+    constexpr double voltageCompensation = 9;
 }
 
 namespace PIDF {
-    constexpr double kP;
-    constexpr double kI;
-    constexpr double kD;
-    constexpr double kF; 
+    double kP;
+    double kI;
+    double kD;
+    double kF; 
 }
 
