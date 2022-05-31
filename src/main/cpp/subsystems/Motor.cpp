@@ -2,24 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "subsystems/Motor.h"
+#pragma once
 
-Motor::Motor(std::function<TalonFX(int id)> factoryFalcon, std::function<TalonSRX(int id)> factoryTalon) {
-  if (Config::usingFalcon) {
-    motorToTest = std::make_shared<TalonFX>(factoryFalcon(CAN_Constants::CAN_ID_MAIN));
-    if (Config::following) {
-      motorFollower = std::make_shared<TalonFX>(factoryFalcon(CAN_Constants::CAN_ID_FOLLOW));
-      motorFollower->Follow(*(motorToTest.get()));
-    }
-  }
-  else {
-    srx_motorToTest = std::make_shared<TalonSRX>(factoryTalon(CAN_Constants::CAN_ID_MAIN));
-    if (Config::following) {
-      srx_motorFollower = std::make_shared<TalonSRX>(factoryTalon(CAN_Constants::CAN_ID_FOLLOW));
-      srx_motorFollower->Follow(*(motorToTest.get()));
-    }
-  }
+#include "subsystems/Motor.h"
+#include "Factory.h"
+
+Motor::Motor() {
+  motor = Factory::makeMotors();
   // no memory management required because smart pointers are amazing
+
+  netTablesInst = nt::NetworkTableInstance::GetDefault();
+  table = netTablesInst.GetTable("tuner");
+
+  kP = table->GetEntry("P");
+  kI = table->GetEntry("I");
+  kD = table->GetEntry("D");
+  kF = table->GetEntry("F");
 }
 
 void Motor::Periodic() {
@@ -29,3 +27,19 @@ void Motor::Periodic() {
 void Motor::SimulationPeriodic() {
   // Implementation of subsystem simulation periodic method goes here.
 }
+
+void Motor::updateValuesFromShuffleBoard() {
+  PIDF::kP = kP.GetDouble(PIDF::kP);
+  PIDF::kI = kI.GetDouble(PIDF::kI);
+  PIDF::kD = kD.GetDouble(PIDF::kD);
+  PIDF::kF = kF.GetDouble(PIDF::kF);
+}
+
+void Motor::resetPIDLoop() {
+  motor->Config_kP(0, PIDF::kI);
+  motor->Config_kP(0, PIDF::kD);
+  motor->Config_kP(0, PIDF::kF);
+  motor->Config_kP(0, PIDF::kP);
+}
+
+

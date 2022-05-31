@@ -7,10 +7,13 @@
 #include <frc2/command/SubsystemBase.h>
 #include "ctre/Phoenix.h"
 #include "Constants.h"
+#include "networktables/NetworkTableEntry.h"
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableInstance.h"
 
 class Motor : public frc2::SubsystemBase {
  public:
-  Motor(std::function<TalonFX(int id)> factoryFalcon, std::function<TalonSRX(int id)> factorTalon);
+  Motor();
   ~Motor();
 
   /**
@@ -24,10 +27,27 @@ class Motor : public frc2::SubsystemBase {
    */
   void SimulationPeriodic() override;
 
- private:
-    std::shared_ptr<TalonFX> motorToTest;
-    std::shared_ptr<TalonFX> motorFollower;
+  void updateShuffledboard();
 
-    std::shared_ptr<TalonSRX> srx_motorToTest;
-    std::shared_ptr<TalonSRX> srx_motorFollower;
+  void updateValuesFromShuffleBoard();
+
+  void resetPIDLoop();
+
+ protected:
+    std::shared_ptr<BaseTalon> motor;
+    bool atSetpoint;
+
+    nt::NetworkTableInstance netTablesInst;
+    std::shared_ptr<nt::NetworkTable> table;
+
+    nt::NetworkTableEntry& kP;
+    nt::NetworkTableEntry& kI;
+    nt::NetworkTableEntry& kD;
+    nt::NetworkTableEntry& kF;
+    
+    nt::NetworkTableEntry& setPoint;
+    nt::NetworkTableEntry& positionError;
+    nt::NetworkTableEntry& veloctyError;
+    nt::NetworkTableEntry& mode;
 };
+

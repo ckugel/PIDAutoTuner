@@ -18,11 +18,9 @@ class RobotContainer {
   RobotContainer();
   ~RobotContainer();
 
-  frc2::Command* GetAutonomousCommand();
-
  private:
   void ConfigureButtonBindings();
 
-  std::function<TalonFX(int id)> falconFactory;
-  std::function<TalonSRX(int id)> talonFactory;
+  std::function<TalonFX*(int id)> falconFactory;
+  std::function<TalonSRX*(int id)> talonFactory;
 };
