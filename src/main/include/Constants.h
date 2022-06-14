@@ -22,12 +22,28 @@ namespace CAN_Constants {
 namespace Config {
     constexpr bool usingFalcon = true;
     constexpr bool position = false;
+    constexpr bool velocity = !position;
     constexpr bool wpilibPID = false;
     constexpr bool following = false;
     constexpr bool brake = false;
     constexpr bool reversed = false;
     constexpr bool facingSameWay = false;
     constexpr double voltageCompensation = 9;
+
+    constexpr double kFalconTicksPerRevolution = 2048;
+    constexpr double kMotorTicksPerRevolution = 1024;
+
+    constexpr double nonFalconRPM = 2000;
+
+    constexpr double gearRatio = 1;
+
+    constexpr double metersToTicks = 1 / ((kFalconTicksPerRevolution * !usingFalcon + kMotorTicksPerRevolution * usingFalcon) / gearRatio); 
+
+    constexpr double posSetpoint = 3 * metersToTicks;
+
+    constexpr double RPMToTicks = ((kFalconTicksPerRevolution * usingFalcon + kMotorTicksPerRevolution * !usingFalcon) / (10 * 60) / gearRatio);
+
+    constexpr double velocitySetpoint = (usingFalcon * 3000 + !usingFalcon * nonFalconRPM) * RPMToTicks;
 }
 
 namespace PIDF {

@@ -33,6 +33,8 @@ class Motor : public frc2::SubsystemBase {
 
   void resetPIDLoop();
 
+  void setMotorSetpoint();
+
  protected:
     std::shared_ptr<BaseTalon> motor;
     bool atSetpoint;
@@ -46,8 +48,9 @@ class Motor : public frc2::SubsystemBase {
     nt::NetworkTableEntry& kF;
     
     nt::NetworkTableEntry& setPoint;
-    nt::NetworkTableEntry& positionError;
-    nt::NetworkTableEntry& veloctyError;
+    nt::NetworkTableEntry& Error;
     nt::NetworkTableEntry& mode;
+    nt::NetworkTableEntry& errorDerviitve;
+    nt::NetworkTableEntry& activeVelocityTrajectory;
 };
 

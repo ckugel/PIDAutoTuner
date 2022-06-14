@@ -43,7 +43,7 @@ std::shared_ptr<TalonSRX> Factory::makeTalon(int id) {
 
 std::shared_ptr<BaseTalon> Factory::makeMotors() {
     std::shared_ptr<BaseTalon> motor;
-    BaseTalon* motorFollower; // (Never let this object die)
+    BaseTalon* motorFollower; // (Never let this object die if we are following)
     if (Config::usingFalcon) {
         motor = makeFalcon(CAN_Constants::CAN_ID_MAIN);
         if (Config::following) {
@@ -60,6 +60,9 @@ std::shared_ptr<BaseTalon> Factory::makeMotors() {
     if (Config::following) {
         motorFollower->SetInverted(Config::reversed ^ Config::facingSameWay);
         motorFollower->Follow(*motor.get());
+    }
+    else {
+        delete motorFollower;
     }
 
     return motor;
